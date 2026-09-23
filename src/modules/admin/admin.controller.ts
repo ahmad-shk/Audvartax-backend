@@ -104,20 +104,16 @@ export async function updateAdminApplicationStatusController(req: Request, res: 
 export async function getAdminApplicationController(req: Request, res: Response) {
   const applicationId = getParam(req.params.id);
   if (!applicationId)
-    return res
-      .status(400)
-      .json({
-        success: false,
-        error: { code: "INVALID_APPLICATION_ID", message: "Application ID is required." },
-      });
+    return res.status(400).json({
+      success: false,
+      error: { code: "INVALID_APPLICATION_ID", message: "Application ID is required." },
+    });
   const application = await applicationStore.findById(applicationId);
   if (!application)
-    return res
-      .status(404)
-      .json({
-        success: false,
-        error: { code: "APPLICATION_NOT_FOUND", message: "Application not found." },
-      });
+    return res.status(404).json({
+      success: false,
+      error: { code: "APPLICATION_NOT_FOUND", message: "Application not found." },
+    });
   const user = await userStore.findById(application.userId);
   const billing = await findOrder(application.id, application.userId);
   const documentPaths: string[] = [];
